@@ -66,7 +66,7 @@ class Cubert(wpilib.SimpleRobot):
             solenoid_in.set(solenoid_button)
             solenoid_out.set(not solenoid_button)
 
-            rack.set(precision_mode(controller.getRawAxis(5),true))
+            rack.set(precision_mode(controller.getRawAxis(5),True))
 
             wheel_button = controller.getRawButton(2)
             wheel.set(1 if wheel_button else 0)
