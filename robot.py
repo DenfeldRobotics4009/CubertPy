@@ -12,7 +12,7 @@ drive = wpilib.RobotDrive(rear_left_motor, rear_right_motor, front_left_motor, f
 drive.SetInvertedMotor(drive.kFrontRightMotor, True)
 drive.SetInvertedMotor(drive.kRearRightMotor, True)
 
-compressor = wpilib.Compressor(2,2)
+compressor = wpilib.Compressor(2, 2)
 solenoid_in = wpilib.Solenoid(2)
 solenoid_out = wpilib.Solenoid(1)
 
@@ -60,13 +60,13 @@ class Cubert(wpilib.SimpleRobot):
             x = precision_mode(controller.getRawAxis(1), precision_button)
             y = precision_mode(controller.getRawAxis(2), precision_button)
             rotation = precision_mode(controller.getRawAxis(4), precision_button)
-            drive.MecanumDrive_Cartesion(x,y,rotation)
+            drive.MecanumDrive_Cartesion(x, y, rotation)
 
             solenoid_button = controller.getRawbutton(1)
             solenoid_in.set(solenoid_button)
             solenoid_out.set(not solenoid_button)
 
-            rack.set(precision_mode(controller.getRawAxis(5),True))
+            rack.set(precision_mode(controller.getRawAxis(5), True))
 
             wheel_button = controller.getRawButton(2)
             wheel.set(1 if wheel_button else 0)
