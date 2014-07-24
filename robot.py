@@ -3,10 +3,10 @@ try:
 except ImportError:
     from pyfrc import wpilib
 
-rear_left_motor = wpilib.Jaguar(3)
-rear_right_motor = wpilib.Jaguar(4)
-front_left_motor = wpilib.Jaguar(2)
-front_right_motor = wpilib.Jaguar(8)
+rear_left_motor = wpilib.Talon(3)
+rear_right_motor = wpilib.Talon(4)
+front_left_motor = wpilib.Talon(2)
+front_right_motor = wpilib.Talon(8)
 
 drive = wpilib.RobotDrive(rear_left_motor, rear_right_motor, front_left_motor, front_right_motor)
 drive.SetInvertedMotor(drive.kFrontRightMotor, True)
