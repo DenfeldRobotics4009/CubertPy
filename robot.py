@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 try:
     import wpilib
 except ImportError:
@@ -35,45 +36,50 @@ def check_restart():
 
 class Cubert(wpilib.SimpleRobot):
     def __init__(self):
+        super().__init__()
         compressor.Start()
 
     def Disabled(self):
-        while self.isDisabled():
+        while self.IsDisabled():
             check_restart()
             wpilib.Wait(0.01)
 
     def Autonomous(self):
-        self.getWatchdog().SetEnabled(False)
-        while self.isAutonomous() and self.isEnabled():
+        self.GetWatchdog().SetEnabled(False)
+        while self.IsAutonomous() and self.IsEnabled():
             check_restart()
             wpilib.Wait(0.01)
 
     def OperatorControl(self):
         dog = self.GetWatchdog()
-        dog.setEnabled(True)
+        dog.SetEnabled(True)
+        dog.SetExpiration(0.25)
 
-        while self.isOperatorControl() and self.isEnabled():
+        while self.IsOperatorControl() and self.IsEnabled():
             dog.Feed()
             check_restart()
 
-            precision_button = (controller.getRawButton(5) or controller.getRawButton(6))
-            x = precision_mode(controller.getRawAxis(1), precision_button)
-            y = precision_mode(controller.getRawAxis(2), precision_button)
-            rotation = precision_mode(controller.getRawAxis(4), precision_button)
-            drive.MecanumDrive_Cartesion(x, y, rotation)
+            precision_button = (controller.GetRawButton(5) or controller.GetRawButton(6))
+            x = precision_mode(controller.GetRawAxis(1), precision_button)
+            y = precision_mode(controller.GetRawAxis(2), precision_button)
+            rotation = precision_mode(controller.GetRawAxis(4), precision_button)
+            drive.MecanumDrive_Cartesian(x, y, rotation)
 
-            solenoid_button = controller.getRawbutton(1)
-            solenoid_in.set(solenoid_button)
-            solenoid_out.set(not solenoid_button)
+            solenoid_button = controller.GetRawButton(1)
+            solenoid_in.Set(solenoid_button)
+            solenoid_out.Set(not solenoid_button)
 
-            rack.set(precision_mode(controller.getRawAxis(5), True))
+            rack.Set(precision_mode(controller.GetRawAxis(5), True))
 
-            wheel_button = controller.getRawButton(2)
-            wheel.set(1 if wheel_button else 0)
+            wheel_button = controller.GetRawButton(2)
+            wheel.Set(1 if wheel_button else 0)
+
+            wpilib.Wait(0.01)
 
 def run():
     cubert = Cubert()
     cubert.StartCompetition()
+    return cubert
 
 if __name__ == "__main__":
     wpilib.run(min_version='2014.4.0')
