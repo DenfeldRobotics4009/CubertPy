@@ -4,7 +4,7 @@ try:
 except ImportError:
     from pyfrc import wpilib
 
-deadzone = .1
+deadZone = .1
 rear_left_motor = wpilib.Talon(3)
 rear_right_motor = wpilib.Talon(4)
 front_left_motor = wpilib.Talon(2)
@@ -24,9 +24,9 @@ wheel = wpilib.Jaguar(10)
 controller = wpilib.Joystick(1)
 
 def precision_mode(controller_input, button_state):
-    if(controller_input >= deadzone):
+    if(controller_input >= deadZone):
         controller_input = ((controller_input-deadZone)/(1-deadZone))**3
-    elif(controller_input <= deadzone):
+    elif(controller_input <= deadZone):
         controller_input = ((-controller_input-deadZone)/(deadZone-1))**3
 
     if button_state:
