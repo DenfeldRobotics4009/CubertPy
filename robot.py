@@ -24,9 +24,11 @@ wheel = wpilib.Jaguar(10)
 controller = wpilib.Joystick(1)
 
 def precision_mode(controller_input, button_state):
-    if(controller_input >= deadZone):
+    if controller_input <= deadZone and controller_input >= -deadZone:
+        return 0
+    elif controller_input >= deadZone:
         controller_input = ((controller_input-deadZone)/(1-deadZone))**3
-    elif(controller_input <= deadZone):
+    elif controller_input <= deadZone:
         controller_input = ((-controller_input-deadZone)/(deadZone-1))**3
 
     if button_state:
@@ -50,6 +52,17 @@ class Cubert(wpilib.SimpleRobot):
 
     def Autonomous(self):
         self.GetWatchdog().SetEnabled(False)
+        rack.Set(1)
+        wheel.Set(1)
+        wpilib.Wait(2)
+        for i in range(5):
+            solenoid_in.Set(True)
+            solenoid_out.Set(False)
+            wpilib.Wait(.25)
+            solenoid_in.Set(False)
+            solenoid_out.Set(True)
+            wpilib.Wait(.25)
+
         while self.IsAutonomous() and self.IsEnabled():
             check_restart()
             wpilib.Wait(0.01)
